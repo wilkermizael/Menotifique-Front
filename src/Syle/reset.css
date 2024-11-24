@@ -1,0 +1,39 @@
+/* Resetando margens, preenchimentos e outros estilos padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Configuração de largura para 100% da viewport */
+  html, body {
+    width: 100%;
+    height: 100%;
+    font-size: 16px; /* Define o tamanho base da fonte */
+  }
+  
+  /* Remove sublinhado em links */
+  a {
+    text-decoration: none;
+    color: inherit; /* Usa a cor do contexto */
+  }
+  
+  /* Remove o estilo padrão de lista */
+  ul, ol {
+    list-style: none;
+  }
+  
+  /* Define um estilo consistente para botões */
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Definir um estilo padrão para imagens */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
