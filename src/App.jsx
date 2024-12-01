@@ -9,6 +9,7 @@ import PrivateRoute from './Contexts/PrivateRoute'
 import Login from './Pages/Login'
 import Painel from './Pages/Painel'
 import NavBar from './Components/Navbar'
+import Turma from './Pages/Turma'
 
 function App() {
 
@@ -27,6 +28,12 @@ function App() {
             <PrivateRoute>
               <NavBar/>
               <Painel />
+            </PrivateRoute>
+          }/>
+          <Route path="/turma" element={
+            <PrivateRoute>
+              <NavBar/>
+              <Turma/>
             </PrivateRoute>
           }/>
     

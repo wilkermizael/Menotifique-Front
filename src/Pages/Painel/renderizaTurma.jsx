@@ -7,15 +7,17 @@ export default async function renderizaTurma() {
         // Mapeia os dados para criar a estrutura de turmas
         const turmas = busca.map((item) => {
             return {
-                turma: `Turma ${item.turma}`, // Formata o nome da turma
-                nome: item.nome, // Nome do aluno
-                alunos: [] // Lista de alunos inicializada como vazia
+                id: item.id,
+                serie: item.serie,
+                turma: item.turma, 
+                turno: item.turno, 
+                ano: item.ano
             };
         });
 
-        return turmas; // Retorna as turmas formatadas
+        return turmas; 
     } catch (error) {
         console.error("Erro ao renderizar turmas:", error);
-        throw error; // Repassa o erro para ser tratado em outro lugar
+        throw error; 
     }
 }

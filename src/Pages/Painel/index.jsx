@@ -9,8 +9,8 @@ const Painel = () => {
     
   return (
     <Box sx={{ 
+        width:"90%",
         height:'100vh',
-        border: '5px dashed',
         m:10,
         p:10,
         display:'flex',
