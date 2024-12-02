@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
-import { EditTurma } from "../Service/editTurma";
+import { EditTurma } from "../../Service/editTurma";
 
 const ModalEdit = ({ turma: initialTurma, turno: initialTurno, serie: initialSerie, ano: initialAno, turmaId, open, onClose, onSave }) => {
   const [serie, setSerie] = useState(initialSerie);
