@@ -1,20 +1,14 @@
 import PropTypes from "prop-types";
-import { Box, Chip, Stack } from "@mui/material"
-import AddIcon from '@mui/icons-material/Add';
-
+import { Box} from "@mui/material"
+import Tabela from "./tabela";
 
 const InfoAlunos = ({turmaId})=>{
-    const addAluno = ()=>{
-    
-            alert(`Id:  ${turmaId}`)
-       
-        
-    }
+
+
     return(
-        <Box sx={{display:"flex", flexDirection:"column", m:2}}>
-            <Stack sx={{display:"flex", flexDirection:"row", justifyContent:"center",}}  spacing={1}>
-                <Chip icon={<AddIcon />} label="Adicionar aluno"  color="info" onClick={addAluno}/>
-            </Stack>
+        <Box sx={{display:"flex", flexDirection:"column", m:3}}>
+           
+        <Tabela turmaId={turmaId}/>
         </Box>
         
     )
