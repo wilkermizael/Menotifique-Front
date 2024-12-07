@@ -17,6 +17,10 @@ import {
 } from '@mui/x-data-grid';
 import { buscaAlunos } from '../../Service/buscaAlunos';
 import { addAluno } from '../../Service/addAluno';
+import { updateAluno } from '../../Service/updateAluno';
+import ModalDeleteAluno from '../../Components/modalDeleteAluno';
+
+
 
 async function getRows(turmaId) {
     const promise = await buscaAlunos(turmaId);
@@ -29,7 +33,7 @@ async function getRows(turmaId) {
   
     // Mapear todos os elementos do array `promise.results`
     const initialRows = promise.results.map((item) => ({
-      id: randomId(),  // Esse id deve ser randomico
+      id: item.id,  // id que vem do db
       nome_aluno: item.nome_aluno,
       telefone_aluno: item.telefone_aluno,
       nome_responsavel: item.nome_responsavel,
@@ -44,7 +48,7 @@ function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = randomId();
+    const id = randomId(); // id da nova linha
     const newRow = {
       id,
       nome_aluno: '',
@@ -75,6 +79,9 @@ const Tabela = (props) => {
   const { turmaId } = props;
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+  const [open, setOpen] = React.useState(false)
+  const [selectedRowId, setSelectedRowId] = React.useState(null);
+
 
   // Carregar os dados assim que a turmaId for recebida ou modificada
  React.useEffect(() => {
@@ -87,6 +94,11 @@ const Tabela = (props) => {
       fetchData();
     }
   }, [turmaId]);
+
+  const handleDeleteSuccess = (id) => {
+    // Filtra a linha excluída do estado
+    setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+  };
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -103,7 +115,9 @@ const Tabela = (props) => {
   };
 
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    setSelectedRowId(id);
+    setOpen(true)
+    //setRows(rows.filter((row) => row.id !== id));
   };
 
   const handleCancelClick = (id) => () => {
@@ -121,7 +135,7 @@ const Tabela = (props) => {
   const processRowUpdate = (newRow) => {
     // Verifica se a linha é nova
     if (newRow.isNew) {
-      addAluno({...newRow, turmaId});
+      addAluno({...newRow, turmaId});//add os dados do novo aluno no db
       // Adiciona a nova linha se ela não existir no estado
       setRows((oldRows) => {
         if (!oldRows.some((row) => row.id === newRow.id)) {
@@ -130,6 +144,7 @@ const Tabela = (props) => {
         return oldRows;
       });
     } else {
+      updateAluno({...newRow, turmaId})
       // Atualiza uma linha existente
       setRows((oldRows) =>
         oldRows.map((row) => (row.id === newRow.id ? { ...newRow, isNew: false } : row))
@@ -228,37 +243,45 @@ const Tabela = (props) => {
   ];
 
   return (
-    <Box
-      sx={{
-        height: 500,
-        width: '100%',
-        '& .actions': {
-          color: 'text.secondary',
-        },
-        '& .textPrimary': {
-          color: 'text.primary',
-        },
-      }}
-    >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
-        processRowUpdate={processRowUpdate}
-        slots={{ toolbar: EditToolbar }}
-        slotProps={{
-          toolbar: { setRows, setRowModesModel },
-        }}
-      />
-    </Box>
+    <>
+      {!open ? (
+        <Box
+          sx={{
+            height: 500,
+            width: '100%',
+            '& .actions': {
+              color: 'text.secondary',
+            },
+            '& .textPrimary': {
+              color: 'text.primary',
+            },
+          }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            slots={{ toolbar: EditToolbar }}
+            slotProps={{
+              toolbar: { setRows, setRowModesModel },
+            }}
+          />
+        </Box>
+      ) : (
+        <ModalDeleteAluno open={open} setOpen={setOpen} selectedRowID={selectedRowId} onDeleteSuccess={handleDeleteSuccess}/>
+      )}
+    </>
   );
+  
 };
 
 Tabela.propTypes = {
   turmaId: PropTypes.string.isRequired, // Ajuste o tipo para refletir a natureza de turmaId
+  selectedRowid: PropTypes.func.isRequired,
 };
 EditToolbar.propTypes = {
     setRows: PropTypes.func.isRequired,
