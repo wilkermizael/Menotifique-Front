@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import {randomId} from '@mui/x-data-grid-generator';
@@ -160,46 +160,47 @@ const Tabela = (props) => {
   };
 
   const columns = [
-    { field: 'nome_aluno', headerName: 'Nome do Aluno', width: 180, editable: true },
+    { field: 'nome_aluno', headerName: 'Nome do Aluno', flex: 1,align: 'center',
+        headerAlign: 'center', editable: true },
     {
       field: 'telefone_aluno',
       headerName: 'Telefone do Aluno',
       type: 'number',
-      width: 180,
-      align: 'left',
-      headerAlign: 'left',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center',
       editable: true,
     },
     {
       field: 'nome_responsavel',
       headerName: 'Nome do Responsável',
-      width: 180,
-      align: 'left',
-      headerAlign: 'left',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center',
       editable: true,
     },
     {
       field: 'telefone_responsavel',
       headerName: 'Telefone do Responsável',
-      width: 220,
-      align: 'left',
-      headerAlign: 'left',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center',
       editable: true,
       type: 'number',
     },
     {
       field: 'qtd_faltas',
       headerName: 'Quantidade de faltas',
-      width: 210,
-      align: 'left',
-      headerAlign: 'left',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center',
       editable: false,
       type: 'number',
     },
     {
       field: 'actions',
       headerName: 'Ações',
-      width: 200,
+      flex: 1,
       renderCell: (params) => {
         const isInEditMode = rowModesModel[params.id]?.mode === GridRowModes.Edit;
 
@@ -232,7 +233,7 @@ const Tabela = (props) => {
             />
             <Button
               size="small"
-              color="secondary"
+              color="error"
               startIcon={<DeleteIcon />}
               onClick={handleDeleteClick(params.id)}
             />
@@ -260,6 +261,7 @@ const Tabela = (props) => {
           <DataGrid
             rows={rows}
             columns={columns}
+            sx={{display:'flex', justifyContent:'space-between', alignContent: 'space-arround'}}
             editMode="row"
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
@@ -272,7 +274,35 @@ const Tabela = (props) => {
           />
         </Box>
       ) : (
+        <>
+        <Box
+          sx={{
+            height: 500,
+            width: '100%',
+            '& .actions': {
+              color: 'text.secondary',
+            },
+            '& .textPrimary': {
+              color: 'text.primary',
+            },
+          }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            slots={{ toolbar: EditToolbar }}
+            slotProps={{
+              toolbar: { setRows, setRowModesModel },
+            }}
+          />
+        </Box>
         <ModalDeleteAluno open={open} setOpen={setOpen} selectedRowID={selectedRowId} onDeleteSuccess={handleDeleteSuccess}/>
+        </>
       )}
     </>
   );
