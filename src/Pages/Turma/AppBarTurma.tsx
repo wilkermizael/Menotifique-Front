@@ -18,7 +18,6 @@ const AppBarTurma = ({ turmaId})=>{
   const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
   const [turma, setTurma] = useState("");
   const [turno, setTurno] = useState("");
-  const [serie, setSerie] = useState("");
   const [ano, setAno] = useState("");
   const fetchTurma = async () => {
     if (turmaId) {
@@ -26,7 +25,6 @@ const AppBarTurma = ({ turmaId})=>{
         const resultado = await buscaTurma(turmaId);
         setTurma(resultado.turma);
         setTurno(resultado.turno);
-        setSerie(resultado.serie);
         setAno(resultado.ano);
       } catch (error) {
         console.error("Erro ao buscar turma:", error);
@@ -59,7 +57,6 @@ const AppBarTurma = ({ turmaId})=>{
         <ModalEdit
           turma={turma}
           turno={turno}
-          serie={serie}
           open={editOpen}
           ano={ano}
           turmaId={turmaId}
@@ -97,9 +94,9 @@ const AppBarTurma = ({ turmaId})=>{
           spacing={2} // Espaçamento entre os textos
           sx={{ flexGrow: 1, ml:2 }} // Garante que os textos ocupem o máximo de espaço
         >
-          <Typography>{serie}</Typography>
           <Typography>{turma}</Typography>
           <Typography>{turno}</Typography>
+          <Typography>{ano}</Typography>
         </Stack>
 
         {/* Botões */}

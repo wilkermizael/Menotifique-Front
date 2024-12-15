@@ -10,8 +10,8 @@ import {
 import { useState } from "react";
 import { EditTurma } from "../../Service/editTurma";
 
-const ModalEdit = ({ turma: initialTurma, turno: initialTurno, serie: initialSerie, ano: initialAno, turmaId, open, onClose, onSave }) => {
-  const [serie, setSerie] = useState(initialSerie);
+const ModalEdit = ({ turma: initialTurma, turno: initialTurno, ano: initialAno, turmaId, open, onClose, onSave }) => {
+
   const [turma, setTurma] = useState(initialTurma);
   const [turno, setTurno] = useState(initialTurno);
   const [ano, setAno] = useState(initialAno);
@@ -20,7 +20,6 @@ const ModalEdit = ({ turma: initialTurma, turno: initialTurno, serie: initialSer
 
   const validateFields = () => {
     const validationErrors = {};
-    if (!serie) validationErrors.serie = true;
     if (!turma) validationErrors.turma = true;
     if (!turno) validationErrors.turno = true;
     if (!ano) validationErrors.ano = true;
@@ -38,7 +37,7 @@ const ModalEdit = ({ turma: initialTurma, turno: initialTurno, serie: initialSer
 
     try {
       // Salva as alterações no banco de dados
-      await EditTurma(serie, turma, turno, ano, turmaId);
+      await EditTurma( turma, turno, ano, turmaId);
 
       // Chama o callback `onSave` para atualizar os dados na página principal
       onSave();
@@ -55,18 +54,6 @@ const ModalEdit = ({ turma: initialTurma, turno: initialTurno, serie: initialSer
     <Dialog open={open} onClose={onClose} aria-labelledby="edit-turma-title">
       <DialogTitle id="edit-turma-title">Editar Turma</DialogTitle>
       <DialogContent>
-        <TextField
-          id="serie-field"
-          value={serie}
-          label="Série"
-          variant="outlined"
-          required
-          error={isSubmitting && errors.serie}
-          helperText={isSubmitting && errors.serie ? "Campo obrigatório" : ""}
-          onChange={(event) => setSerie(event.target.value)}
-          fullWidth
-          margin="normal"
-        />
         <TextField
           id="turma-field"
           value={turma}
@@ -123,7 +110,6 @@ const ModalEdit = ({ turma: initialTurma, turno: initialTurno, serie: initialSer
 ModalEdit.propTypes = {
   turma: PropTypes.string.isRequired,
   turno: PropTypes.string.isRequired,
-  serie: PropTypes.string.isRequired,
   ano: PropTypes.string.isRequired,
   turmaId: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,

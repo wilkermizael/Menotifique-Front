@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function EditTurma(serie,turma,turno, ano, turmaId) {
+export async function EditTurma(turma,turno, ano, turmaId) {
     try {
         const token = import.meta.env.VITE_Token; // Certifique-se de que VITE_Token está definido no .env
         if (!token) {
@@ -15,7 +15,6 @@ export async function EditTurma(serie,turma,turno, ano, turmaId) {
         "Content-Type": "application/json"
     },
       data: {
-        "serie": serie,
         "turma": turma,
         "turno": turno,
         "ano": ano

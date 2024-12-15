@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const AddTurma = () => {
   const [isOpen, setOpen] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [serie, setSerie] = useState("");
+  //const [serie, setSerie] = useState("");
   const [turma, setTurma] = useState("");
   const [turno, setTurno] = useState("");
   const [ano, setAno] = useState("");
@@ -35,7 +35,7 @@ const AddTurma = () => {
     setIsSubmitting(true);
 
     const newErrors = {
-      serie: !serie.trim(),
+      //serie: !serie.trim(),
       turma: !turma.trim(),
       turno: !turno.trim(),
       ano: !ano.trim(),
@@ -46,8 +46,8 @@ const AddTurma = () => {
     const hasErrors = Object.values(newErrors).some((error) => error);
 
     if (!hasErrors) {
-      const resposta = await CadastroTurma(serie, turma, turno, ano);
-      setSerie("");
+      const resposta = await CadastroTurma(turma, turno, ano);
+      //setSerie("");
       setTurma("");
       setTurno("");
       setAno("");
@@ -81,7 +81,6 @@ const AddTurma = () => {
             alignItems:"center",
             alignContent:"center",
             //bgcolor: "rgba #ffffff6b",
-            bgcolor:"red",
             boxShadow: "0px 2px 3px 2px rgba(0, 0, 0, 0.2)",
             p: { xs: 4, sm: 6, md: 8, lg: 10 },
           }}
@@ -180,17 +179,6 @@ const AddTurma = () => {
             color="primary"
             onClick={() => setOpen(!isOpen)}
             sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
-          />
-          <TextField
-            id="serie-field"
-            value={serie}
-            label="Série"
-            variant="outlined"
-            required
-            error={isSubmitting && errors.serie}
-            helperText={isSubmitting && errors.serie ? "Campo obrigatório" : ""}
-            onChange={(event) => setSerie(event.target.value)}
-            fullWidth
           />
           <TextField
             id="turma-field"
