@@ -81,7 +81,6 @@ const AddTurma = () => {
             alignItems:"center",
             alignContent:"center",
             //bgcolor: "rgba #ffffff6b",
-            bgcolor:"red",
             boxShadow: "0px 2px 3px 2px rgba(0, 0, 0, 0.2)",
             p: { xs: 4, sm: 6, md: 8, lg: 10 },
           }}
