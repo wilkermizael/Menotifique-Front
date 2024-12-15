@@ -18,7 +18,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
     if (setting === "Sair") {
       localStorage.removeItem("authToken"); // Remove o token do localStorage
-      navigate("/login"); // Redireciona para a página de login
+      navigate("/"); // Redireciona para a página de login
     }
   }
   return (
