@@ -11,15 +11,6 @@ const InfoAlunos = ({turmaId})=>{
     return(
         <Box sx={{display:"flex", flexDirection:"column"}}>
         <MyBottomNavigation value={value} setValue={setValue} turmaId={turmaId}/>
-        {/*<Tabela turmaId={turmaId}/>*/}
-        {/*<Box sx={{
-            width:"100%",
-            height: "100vh",
-            bgcolor: "#bfbfbfad",
-            borderRadius:"15px"
-            }}>
-                
-        </Box>*/}
         </Box>
         
     )

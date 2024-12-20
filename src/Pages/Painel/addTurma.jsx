@@ -80,8 +80,8 @@ const AddTurma = () => {
             flexGrow:1,
             alignItems:"center",
             alignContent:"center",
-            //bgcolor: "rgba #ffffff6b",
-            boxShadow: "0px 2px 3px 2px rgba(0, 0, 0, 0.2)",
+            //bgcolor: "#9e1d1d6b",
+            
             p: { xs: 4, sm: 6, md: 8, lg: 10 },
           }}
         >
