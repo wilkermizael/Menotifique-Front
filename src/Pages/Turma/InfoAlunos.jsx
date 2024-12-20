@@ -1,14 +1,16 @@
 import PropTypes from "prop-types";
 import { Box} from "@mui/material"
-import Tabela from "./tabela";
+import MyBottomNavigation from "../../Components/BottomNavigation";
+import React from "react";
+//import Tabela from "./tabela";
+//import ScheduleOutlinedIcon from '@mui/icons-material/ScheduleOutlined';
 
 const InfoAlunos = ({turmaId})=>{
-
+    const [value, setValue] = React.useState(0);
 
     return(
-        <Box sx={{display:"flex", flexDirection:"column", m:3}}>
-           
-        <Tabela turmaId={turmaId}/>
+        <Box sx={{display:"flex", flexDirection:"column"}}>
+        <MyBottomNavigation value={value} setValue={setValue} turmaId={turmaId}/>
         </Box>
         
     )

@@ -10,17 +10,13 @@ const Painel = () => {
     
   return (
     <Box sx={{ 
-        //width:"90%",
         height:'100vh',
-        //m:10,
-        //p:10,
         display:'flex',
         flexFlow:'row wrap',
         justifyContent:'spacte-between',
         alignItems:'flex-start',
-        alignContent:'flex-start'
-
-
+        alignContent:'flex-start',
+        
         }}>
         <AddTurma/>
         <TypebotBubble/>

@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import TypebotBubble from "../../Components/TypebotBubble";
+//import TypebotBubble from "../../Components/TypebotBubble";
 import AppBarTurma from "./AppBarTurma";
 import InfoAlunos from "./InfoAlunos";
 
@@ -12,7 +12,7 @@ const Turma = () => {
         turmaId={turmaId}
       />
       <InfoAlunos turmaId={turmaId}/>
-      <TypebotBubble />
+      {/*<TypebotBubble />*/}
     </>
   );
 };
