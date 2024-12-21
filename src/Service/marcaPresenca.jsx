@@ -3,12 +3,15 @@ import { comparaData } from "../Utils/comparaData";
 import { evolution } from "./evolution";
 
 const marcaPresenca = async (lista) => {
+  /*const dataDb = await verificaChamada(lista);
+  console.log(dataDb)
+  const chamadaJaRealizada = await comparaData(dataDb);
+  return chamadaJaRealizada*/
   try {
     // Verifica se a chamada já foi realizada
     const dataDb = await verificaChamada(lista);
-    const chamadaJaRealizada = comparaData(dataDb);
-
-    if (chamadaJaRealizada) {
+    const chamadaJaRealizada = await comparaData(dataDb);
+    if (chamadaJaRealizada == "turma_ja_chamada") {
       return "turma_ja_chamada";
     }
 
@@ -67,7 +70,7 @@ const marcaPresenca = async (lista) => {
   }
 };
 
-const verificaChamada = async (lista) => {
+const  verificaChamada = async (lista) => {
   try {
     const token = import.meta.env.VITE_Token;
     if (!token) {
@@ -88,12 +91,12 @@ const verificaChamada = async (lista) => {
       }
     );
 
-    const results = response.data.results;
+    const results = response.data;
     if (!results || results.length === 0) {
       return null; // Sem dados
     }
 
-    return results[0].data_chamada; // Data da primeira chamada
+    return results;
   } catch (error) {
     console.error("Erro ao verificar chamada:", error.message);
     return null;

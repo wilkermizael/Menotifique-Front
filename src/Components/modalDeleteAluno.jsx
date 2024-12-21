@@ -10,7 +10,7 @@ import {
   } from "@mui/material";
   import PropTypes from "prop-types";
 import React from "react";
-import { deleteAluno } from "../Service/deleAluno";
+import { deleteAluno } from "../Service/deleteAluno";
   
   const ModalDeleteAluno = ({ open, setOpen, selectedRowID, onDeleteSuccess }) => {
     // Função de exclusão
@@ -69,10 +69,10 @@ import { deleteAluno } from "../Service/deleAluno";
   
   ModalDeleteAluno.propTypes = {
     open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
+    //onClose: PropTypes.func.isRequired,
+    //id: PropTypes.string.isRequired,
     setOpen: PropTypes.func.isRequired,
-    selectedRowID: PropTypes.func.isRequired,
+    selectedRowID: PropTypes.number,
     onDeleteSuccess: PropTypes.func.isRequired,
   };
   

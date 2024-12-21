@@ -86,8 +86,8 @@ const AppBarTurma = ({ turmaId})=>{
         }}
       >
         {/* Dados da turma */}
-        <IconButton color="primary">
-            <ArrowBackRoundedIcon sx={{ fontSize: 30 }} onClick={()=>navigate("/painel")}/>
+        <IconButton color="primary" onClick={()=>navigate("/painel")}>
+            <ArrowBackRoundedIcon sx={{ fontSize: 30 }} />
         </IconButton>
         <Stack
           direction="row"
@@ -117,7 +117,7 @@ const AppBarTurma = ({ turmaId})=>{
     )
 }
 AppBarTurma.propTypes = {
-    turmaId: PropTypes.string.isRequired,
+    turmaId: PropTypes.number.isRequired,
    
   };
 export default AppBarTurma
