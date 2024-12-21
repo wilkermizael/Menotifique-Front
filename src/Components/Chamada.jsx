@@ -56,8 +56,9 @@ const Chamada = ({ turmaId }) => {
     try {
       const lista = separaPresenca(alunos, presenca); // Função que separa alunos faltosos dos presentes
       const response = await marcaPresenca(lista.presentes); // Envia os dados de presença para o banco de dados
+      console.log(response)
   
-      if (response === "turma_ja_chamada") { // Valor explícito para indicar chamada repetida
+      if (response == "turma_ja_chamada") { // Valor explícito para indicar chamada repetida
         setShowAlert(true);
         setAlertStatus("warning");
         setMessage("A chamada já foi realizada nessa turma.");
@@ -176,7 +177,7 @@ const Chamada = ({ turmaId }) => {
 
 
 Chamada.propTypes = {
-  turmaId: PropTypes.string.isRequired,
+  turmaId: PropTypes.number.isRequired,
 
 };
 export default Chamada;

@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import { Box} from "@mui/material"
 import MyBottomNavigation from "../../Components/BottomNavigation";
 import React from "react";
-//import Tabela from "./tabela";
-//import ScheduleOutlinedIcon from '@mui/icons-material/ScheduleOutlined';
 
 const InfoAlunos = ({turmaId})=>{
     const [value, setValue] = React.useState(0);
@@ -16,7 +14,7 @@ const InfoAlunos = ({turmaId})=>{
     )
 }
 InfoAlunos.propTypes = {
-    turmaId: PropTypes.string.isRequired,
+    turmaId: PropTypes.number.isRequired,
    
   };
 export default InfoAlunos

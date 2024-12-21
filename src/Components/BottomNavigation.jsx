@@ -64,9 +64,9 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
 }
 
 MyBottomNavigation.propTypes = {
-    value: PropTypes.func.isRequired,
+    value: PropTypes.number.isRequired,
     setValue: PropTypes.func.isRequired,
-    turmaId: PropTypes.string.isRequired,
+    turmaId: PropTypes.number.isRequired,
    
   };
 export default MyBottomNavigation

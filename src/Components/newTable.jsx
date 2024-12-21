@@ -219,7 +219,7 @@ const NewTabela = ({ turmaId }) => {
 };
 
 NewTabela.propTypes = {
-  turmaId: PropTypes.string.isRequired,
+  turmaId: PropTypes.number.isRequired,
 };
 
 export default NewTabela;
