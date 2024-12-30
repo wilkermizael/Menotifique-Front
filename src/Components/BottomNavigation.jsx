@@ -47,7 +47,7 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Chamada" {...a11yProps(0)} />
             <Tab label="Alunos" {...a11yProps(1)} />
-            <Tab label="Busca Ativa" {...a11yProps(2)}/>
+            {/*<Tab label="Busca Ativa" {...a11yProps(2)}/>*/}
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -56,9 +56,9 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
         <CustomTabPanel value={value} index={1}>
           <NewTabela turmaId={turmaId}/>
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
+        {/*<CustomTabPanel value={value} index={2}>
           Alunos que possuem mais de 15 faltas
-        </CustomTabPanel>
+        </CustomTabPanel>*/}
       </Box>
     );
 }
