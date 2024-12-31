@@ -3,17 +3,18 @@ import { comparaData } from "../Utils/comparaData";
 import { evolution } from "./evolution";
 
 const marcaPresenca = async (lista) => {
-  /*const dataDb = await verificaChamada(lista);
+  const dataDb = await verificaChamada(lista);
   console.log(dataDb)
   const chamadaJaRealizada = await comparaData(dataDb);
-  return chamadaJaRealizada*/
+  if (chamadaJaRealizada == "turma_ja_chamada") {
+    return "turma_ja_chamada";
+  }
+
   try {
     // Verifica se a chamada já foi realizada
-    const dataDb = await verificaChamada(lista);
-    const chamadaJaRealizada = await comparaData(dataDb);
-    if (chamadaJaRealizada == "turma_ja_chamada") {
-      return "turma_ja_chamada";
-    }
+    /*const dataDb = await verificaChamada(lista);
+    const chamadaJaRealizada = await comparaData(dataDb);*/
+    
 
     // Função para formatar a data como YYYY-MM-DD
     const formatDate = (date) => {
