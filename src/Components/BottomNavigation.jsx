@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Chamada from "./Chamada";
 import NewTabela from "./newTable";
 import BuscaAtiva from "../Pages/Turma/BuscaAtiva"
+import DiarioDeBordo from "../Pages/Turma/DiarioDeBordo";
 //import React from "react";
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -48,6 +49,7 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
             <Tab label="Chamada" {...a11yProps(0)} />
             <Tab label="Alunos" {...a11yProps(1)} />
             <Tab label="Busca Ativa" {...a11yProps(2)}/>
+            <Tab label="Diário de Bordo" {...a11yProps(3)}/>
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -58,6 +60,9 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <BuscaAtiva turmaId={turmaId}/>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
+          <DiarioDeBordo turmaId={turmaId}/>
         </CustomTabPanel>
       </Box>
     );
