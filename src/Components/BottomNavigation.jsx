@@ -44,7 +44,14 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
         width: '100%', 
 
       }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', display:"flex",justifyContent:"center"}}>
+        <Box sx={{ 
+          borderBottom: 1, 
+          borderColor: 'divider', 
+          display:"flex",
+          justifyContent:"center",
+          height: '100vh', 
+          overflow: 'hidden'
+          }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Chamada" {...a11yProps(0)} />
             <Tab label="Alunos" {...a11yProps(1)} />
