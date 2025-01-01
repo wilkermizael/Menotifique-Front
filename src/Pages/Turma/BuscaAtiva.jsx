@@ -5,7 +5,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getBuscaAtiva } from '../../Service/getbuscaAtiva';
+import { getBuscaAtiva } from '../../Service/getBuscaAtiva';
 
 async function getRows(turmaId) {
   const promise = await getBuscaAtiva(turmaId);
