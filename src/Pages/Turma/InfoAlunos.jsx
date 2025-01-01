@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Box} from "@mui/material"
-import MyBottomNavigation from "../../Components/BottomNavigation";
+import MyBottomNavigation from "./BottomNavigation";
 import React from "react";
 
 const InfoAlunos = ({turmaId})=>{
