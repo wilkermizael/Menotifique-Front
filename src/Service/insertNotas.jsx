@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 export default  async function insertNotas(turma_id, notas) {
   const { id, descricao, data, tipoDemanda, profissional } = notas;
   const date = dayjs(data).format('YYYY-MM-DD');
-  //console.log(date, tipoDemanda)
+  console.log(date, tipoDemanda)
     try {
         const token = import.meta.env.VITE_Token; // Certifique-se de que VITE_Token está definido no .env
         if (!token) {

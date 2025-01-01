@@ -58,7 +58,7 @@ async function getBoard(alunoId) {
     }
     
     return promise.results.map((item) => ({
-        id: item.id,
+        id_aluno: item.id_aluno,
         data: item.data_nota,
         tipoDemanda: item.demanda,
         profissional: item.profissional,
@@ -83,7 +83,7 @@ async function getAlunos(turmaId) {
 const DiarioDeBordo = ({ turmaId }) => {
   const [rows, setRows] = useState([]);
   const [notas, setNotas] = useState({ registro: {} });
-  const [board, setBoard] = useState([]);
+
   const [selectedAluno, setSelectedAluno] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [errors, setErrors] = useState({}); // Estado para armazenar erros
@@ -91,15 +91,31 @@ const DiarioDeBordo = ({ turmaId }) => {
   useEffect(() => {
     async function fetchData() {
       const fetchedRows = await getAlunos(turmaId);
-      const fetchedDoard = await getBoard(fetchedRows[0].id);
-      setBoard(fetchedDoard);
-      setRows(fetchedRows);
+      const fetchedBoard = await Promise.all(
+        fetchedRows.map(async (row) => {
+          const boardData = await getBoard(row.id);
+          return { id: row.id, board: boardData }; // Retorna o id e os dados de board para cada aluno
+        })
+      );
+      // Une `rows` e `board` com base no id
+      const combinedRows = fetchedRows.map((row) => {
+        const boardForRow = fetchedBoard.find((boardEntry) => boardEntry.id === row.id);
+        return {
+          ...row,
+          board: boardForRow ? boardForRow.board : [], // Adiciona o array `board` correspondente
+        };
+      });
+   
+      setRows(combinedRows);
       
     }
+  
     if (turmaId) {
       fetchData();
     }
+    
   }, [turmaId]);
+  
 
   const updateNota = (field, value) => {
     setNotas((prevNotas) => ({
@@ -128,11 +144,33 @@ const DiarioDeBordo = ({ turmaId }) => {
 
   const handleSaveNota = async () => {
     if (!validateFields()) return; // Impede o salvamento se houver erros
-
-    await insertNotasDiario(turmaId, notas.registro);
-   
-    setModalOpen(false);
+  
+    try {
+      // Insere a nota no banco de dados
+      await insertNotasDiario(turmaId, notas.registro);
+  
+      // Busca as notas atualizadas do aluno no banco
+      const updatedBoard = await getBoard(selectedAluno.id);
+  
+      // Atualiza o estado `rows` com as novas notas
+      setRows((prevRows) =>
+        prevRows.map((row) =>
+          row.id === selectedAluno.id
+            ? {
+                ...row,
+                board: updatedBoard, // Substitui o board atual pelo atualizado
+              }
+            : row
+        )
+      );
+  
+      setModalOpen(false); // Fecha o modal após salvar
+      setNotas({ registro: {} }); // Reseta o estado de notas
+    } catch (error) {
+      console.error('Erro ao salvar nota ou buscar dados atualizados:', error);
+    }
   };
+  
 
   const openModal = (aluno) => {
     setSelectedAluno(aluno);
@@ -155,32 +193,31 @@ const DiarioDeBordo = ({ turmaId }) => {
   return (
     <>
      
-
-
-      {rows.map((row) => (
-        <Accordion key={row.id} sx={{ marginBottom: 1 }}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>{row.nome_aluno}</Typography>
-          </AccordionSummary>
-          {<Box sx={{ marginBottom: 2 }}>
-                {board.map((item) =>(
-                    <Box key={item.id} sx={{ m: 2, bgcolor: '#cbf6f573' }}>
-                    <Typography >{`Data: ${dayjs(item.data).format('DD/MM/YYYY')} `}</Typography>
-                    <Typography >{`Demanda: ${item.tipoDemanda} `}</Typography>
-                    <Typography >{`Profissional: ${item.profissional} `}</Typography>
-                    <Typography >{`Descrição: ${item.descricao} `}</Typography>
-                    </Box>
-                ))}   
-          </Box>}   
-          <AccordionDetails>
-            <Box>
-              <Button variant="outlined" onClick={() => openModal(row)}>
-                Adicionar nota
-              </Button>
+     {rows.map((row) => (
+  <Accordion key={row.id} sx={{ marginBottom: 1 }}>
+    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <Typography>{row.nome_aluno}</Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      <Box>
+        {row.board && row.board.length > 0 && (
+          row.board.map((note, index) => (
+            <Box key={index} sx={{ m: 2, bgcolor: '#cbf6f573', p: 2, borderRadius: 2 }}>
+              <Typography><strong>Data:</strong> {dayjs(note.data).format('DD/MM/YYYY')}</Typography>
+              <Typography><strong>Demanda:</strong> {note.tipoDemanda}</Typography>
+              <Typography><strong>Profissional:</strong> {note.profissional}</Typography>
+              <Typography><strong>Descrição:</strong> {note.descricao}</Typography>
             </Box>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+          ))
+        )}
+        <Button variant="outlined" onClick={() => openModal(row)}>
+          Adicionar nota
+        </Button>
+      </Box>
+    </AccordionDetails>
+  </Accordion>
+))}
+
       <Modal open={modalOpen} onClose={closeModal}>
         <Box
           sx={{
