@@ -3,8 +3,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
   }
-  
+  body {
+    background-color: rgba(209, 213, 220, 0.457);
+ 
+  }
   /* Configuração de largura para 100% da viewport */
   html, body {
     width: 100%;

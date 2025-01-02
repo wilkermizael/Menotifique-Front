@@ -7,7 +7,8 @@ const InfoAlunos = ({turmaId})=>{
     const [value, setValue] = React.useState(0);
 
     return(
-        <Box sx={{display:"flex", flexDirection:"column"}}>
+        //<Box sx={{display:"flex", flexDirection:"column"}}>
+        <Box>
         <MyBottomNavigation value={value} setValue={setValue} turmaId={turmaId}/>
         </Box>
         

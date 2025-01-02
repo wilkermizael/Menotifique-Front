@@ -16,7 +16,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 2 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 1 }}>{children}</Box>}
     </div>
   );
 }
@@ -40,23 +40,27 @@ const MyBottomNavigation = ({ value, setValue, turmaId }) => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box >
       <Box
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-          overflow: "hidden", // Remove qualquer rolagem
-          flexWrap: "wrap", // Permite que os elementos se ajustem
+          bgcolor:"red",
+          //display: "flex",
+          //justifyContent: "center",
+          //height: '100vh', // Ocupa toda a altura da tela
+          //overflow: 'hidden',
+          //width: { xs: '70%', sm: '50%'}
+         
         }}
       >
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
-          variant="fullWidth" // Garante que as abas se ajustem automaticamente
+          //variant="fullWidth" // Garante que as abas se ajustem automaticamente
+          variant="scrollable" // Permite que as abas sejam roláveis
+          scrollButtons="auto"
         >
           <Tab label="Chamada" {...a11yProps(0)} />
           <Tab label="Alunos" {...a11yProps(1)} />

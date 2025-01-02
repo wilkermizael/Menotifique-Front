@@ -41,11 +41,30 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
   
     return (
       <Box sx={{ 
-        width: '100%', 
+        width: '100%',
 
       }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', display:"flex",justifyContent:"center"}}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Box sx={{ 
+          borderBottom: 1, 
+          borderColor: 'divider', 
+          display:"flex",
+          justifyContent:"center",
+          scrollBehavior: "smooth",
+        }}
+          >
+          <Tabs 
+          value={value} 
+          onChange={handleChange} 
+          aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+          sx={{
+            "& .MuiTab-root": {
+              minWidth: { xs: "33%", sm: "25%" }, // Responsivo para telas menores
+            },
+          }}
+          >
             <Tab label="Chamada" {...a11yProps(0)} />
             <Tab label="Alunos" {...a11yProps(1)} />
             <Tab label="Busca Ativa" {...a11yProps(2)}/>
