@@ -23,9 +23,9 @@ const AppBarTurma = ({ turmaId})=>{
     if (turmaId) {
       try {
         const resultado = await buscaTurma(turmaId);
-        setTurma(resultado.turma);
-        setTurno(resultado.turno);
-        setAno(resultado.ano);
+        setTurma(resultado.nameClass);
+        setTurno(resultado.turn);
+        setAno(resultado.year);
       } catch (error) {
         console.error("Erro ao buscar turma:", error);
       } finally {
@@ -117,7 +117,7 @@ const AppBarTurma = ({ turmaId})=>{
     )
 }
 AppBarTurma.propTypes = {
-    turmaId: PropTypes.number.isRequired,
+    turmaId: PropTypes.string.isRequired,
    
   };
 export default AppBarTurma

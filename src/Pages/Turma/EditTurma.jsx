@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
-import { EditTurma } from "../../Service/editTurma";
+import {editTurmaById} from "../../Service/editTurma.js"
 
 const ModalEdit = ({ turma: initialTurma, turno: initialTurno, ano: initialAno, turmaId, open, onClose, onSave }) => {
 
@@ -37,7 +37,7 @@ const ModalEdit = ({ turma: initialTurma, turno: initialTurno, ano: initialAno, 
 
     try {
       // Salva as alterações no banco de dados
-      await EditTurma( turma, turno, ano, turmaId);
+      await editTurmaById( turma, turno, ano, turmaId);
 
       // Chama o callback `onSave` para atualizar os dados na página principal
       onSave();

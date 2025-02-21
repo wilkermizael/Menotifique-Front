@@ -8,10 +8,9 @@ export default async function renderizaTurma() {
         const turmas = busca.map((item) => {
             return {
                 id: item.id,
-                serie: item.serie,
-                turma: item.turma, 
-                turno: item.turno, 
-                ano: item.ano
+                turma: item.nameClass, 
+                turno: item.turn, 
+                ano: item.year
             };
         });
 

@@ -3,14 +3,8 @@ import axios from "axios";
 export async function deleteTurma(id) {
   if (id) {
     try {
-      const token = import.meta.env.VITE_Token;
-      const response = await axios({
-        method: "DELETE",
-        url: `https://baserow.winikii.com/api/database/rows/table/24/${id}/`,
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const API_BASE_URL = "http://localhost:4000";
+      const response = await axios.delete(`${API_BASE_URL}/class/${id}`);
       return response.data; // Retorna o resultado esperado
     } catch (error) {
      throw new Error(error);

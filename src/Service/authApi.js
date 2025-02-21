@@ -1,18 +1,15 @@
-import axios from 'axios';
+import axios from "axios";
 
-export async function signIn() {
+const API_BASE_URL = "http://localhost:4000"; // Defina a URL da API
+
+export async function signIn(user, password) {
   try {
-    const token = import.meta.env.VITE_Token;
-    const response = await axios({
-      method: "GET",
-      url: "https://baserow.winikii.com/api/database/rows/table/23/?user_field_names=true",
-      headers: {
-        Authorization: `${token}`
-      }
-    });
-    return response.data.results[0]; // Retorna o resultado esperado
+    const response = await axios.post(`${API_BASE_URL}/users/login`, { user, password });
+
+    // Retorna os dados do usuário, que provavelmente incluem um token
+    return response.data;  
   } catch (error) {
-    console.error("Erro ao realizar login:", error.message);
-    return null; // Retorna um valor seguro em caso de erro
+    console.error("Erro ao realizar login:", error.response?.data || error.message);
+    return null;
   }
 }

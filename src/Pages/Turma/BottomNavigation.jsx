@@ -1,9 +1,9 @@
 import { Box, Tab, Tabs} from "@mui/material";
 import PropTypes from "prop-types";
 import Chamada from "../../Components/Chamada";
-import NewTabela from "../../Components/newTable";
 import BuscaAtiva from "./BuscaAtiva"
 import DiarioDeBordo from "./DiarioDeBordo";
+import Alunos from "../../Components/Alunos";
 //import React from "react";
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -34,7 +34,6 @@ function CustomTabPanel(props) {
     };
   }
 const MyBottomNavigation = ({value, setValue, turmaId})=>{
-
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -75,7 +74,7 @@ const MyBottomNavigation = ({value, setValue, turmaId})=>{
           <Chamada turmaId={turmaId}/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <NewTabela turmaId={turmaId}/>
+          <Alunos turmaId={turmaId}/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <BuscaAtiva turmaId={turmaId}/>
