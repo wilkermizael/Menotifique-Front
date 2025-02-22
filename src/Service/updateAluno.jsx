@@ -5,17 +5,16 @@ export async function updateAluno(props) {
     id, 
     nome_aluno, 
     nome_responsavel, 
-    telefone_responsavel, 
+    telefone_responsavel,   
     qtd_faltas, 
     img_student,
     turmaId } = props;
-  console.log(id)
   if (!id) {
     throw new Error("ID do aluno não foi fornecido.");
   }
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   try {
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+    
     const formData = new FormData();
     formData.append("id_class", turmaId);
     formData.append("name_student", nome_aluno);
@@ -34,3 +33,4 @@ export async function updateAluno(props) {
     throw new Error("Erro ao atualizar aluno. Verifique os dados e tente novamente.");
   }
 }
+
