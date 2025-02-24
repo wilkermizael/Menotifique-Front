@@ -100,9 +100,17 @@ const Alunos = ({ turmaId }) => {
     data.append("phone_responsible", formData.telefone_responsavel);
     data.append("qtd_faults", formData.qtd_faltas);
     data.append("id_class", turmaId.toString());
-    console.log([...data.entries()]); // Diagnóstico
+    
 
     if (formData.id) {
+      // await updateAluno({
+      //   id: formData.id,
+      //   turmaId,
+      //   nome_aluno: formData.nome_aluno,
+      //   img_student: formData.img_student,
+      //   nome_responsavel: formData.nome_responsavel,
+      //   telefone_responsavel: formData.telefone_responsavel,
+      // });
       await updateAluno({
         id: formData.id,
         turmaId,
@@ -110,6 +118,7 @@ const Alunos = ({ turmaId }) => {
         img_student: formData.img_student,
         nome_responsavel: formData.nome_responsavel,
         telefone_responsavel: formData.telefone_responsavel,
+        qtd_faltas: formData.qtd_faltas
       });
       setRows(rows.map((row) => (row.id === formData.id ? formData : row)));
     } else {
