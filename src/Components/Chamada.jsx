@@ -19,8 +19,14 @@ const Chamada = ({ turmaId }) => {
   useEffect(() => {
     const fetchAlunos = async () => {
       const response = await buscaAlunos(turmaId);
+
       if (response && response.results) {
-        setAlunos(response.results);
+        // Ordena os alunos em ordem alfabética com base em name_student
+        const alunosOrdenados = response.results.sort((a, b) =>
+          a.name_student.localeCompare(b.name_student)
+        );
+  
+        setAlunos(alunosOrdenados);
         const estadoInicialPresenca = response.results.reduce(
           (estado, aluno) => ({ ...estado, [aluno.id]: true }),
           {}
@@ -138,7 +144,7 @@ const Chamada = ({ turmaId }) => {
                 <PersonIcon sx={{ color: "#ffffff" }} />
               </Avatar>
               <Typography variant="body1" fontWeight="500" sx={{ color: "#343a40" }}>
-                {aluno.nome_aluno}
+                {aluno.name_student}
               </Typography>
             </Box>
             {/* Checkbox de presença */}

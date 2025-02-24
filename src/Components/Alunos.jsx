@@ -29,16 +29,18 @@ async function getRows(turmaId) {
     console.error("Nenhum dado encontrado ou a estrutura é inesperada");
     return [];
   }
-  return promise.results.map((item) => ({
-    id: item.id,
-    img_student: item.img_student
-      ? `${import.meta.env.VITE_API_BASE_URL}${item.img_student}`
-      : null,
-    nome_aluno: item.name_student,
-    nome_responsavel: item.name_responsible,
-    telefone_responsavel: item.phone_responsible,
-    qtd_faltas: item.qtd_faults,
-  }));
+  return promise.results
+    .sort((a, b) => a.name_student.localeCompare(b.name_student)) // Ordenação por nome
+    .map((item) => ({
+      id: item.id,
+      img_student: item.img_student
+        ? `${import.meta.env.VITE_API_BASE_URL}${item.img_student}`
+        : null,
+      nome_aluno: item.name_student,
+      nome_responsavel: item.name_responsible,
+      telefone_responsavel: item.phone_responsible,
+      qtd_faltas: item.qtd_faults,
+    }));
 }
 
 const Alunos = ({ turmaId }) => {
