@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function buscaAlunos(turmaId) {
-  const API_BASE_URL = "http://localhost:4000"; // Defina a URL da API
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL // Defina a URL da API
   try {
     const token = import.meta.env.VITE_Token; // Certifique-se de que VITE_Token está definido no .env
     if (!token) {

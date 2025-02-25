@@ -75,10 +75,12 @@ async function getAlunos(turmaId) {
     return [];
   }
 
-  return promise.results.map((item) => ({
-    id: item.id,
-    nome_aluno: item.nome_aluno,
-  }));
+  return promise.results
+    .sort((a, b) => a.name_student.localeCompare(b.name_student)) // Ordenação alfabética
+    .map((item) => ({
+      id: item.id,
+      nome_aluno: item.name_student,
+    }));
 }
 
 const DiarioDeBordo = ({ turmaId }) => {

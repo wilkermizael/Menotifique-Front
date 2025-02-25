@@ -1,16 +1,10 @@
 import axios from "axios";
 
 export async function deleteAluno(id) {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
   if (id) {
     try {
-      const token = import.meta.env.VITE_Token;
-      const response = await axios({
-        method: "DELETE",
-        url: `https://baserow.winikii.com/api/database/rows/table/25/${id}/`,
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const response = await axios.delete(`${API_BASE_URL}/student/${id}`);
       return response.data; // Retorna o resultado esperado
     } catch (error) {
      throw new Error(error);
