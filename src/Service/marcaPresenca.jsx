@@ -71,20 +71,13 @@ const  verificaChamada = async (lista) => {
     if (!token) {
       throw new Error("Token não encontrado. Verifique suas configurações de ambiente.");
     }
-
+    
     const idTurma = lista[0]?.id_turma;
     if (!idTurma) {
       throw new Error("ID da turma não encontrado na lista.");
     }
 
-    const response = await axios.get(
-      `https://baserow.winikii.com/api/database/rows/table/26/?user_field_names=true&filters=%7B%22filter_type%22%3A%22AND%22%2C%22filters%22%3A%5B%5D%2C%22groups%22%3A%5B%7B%22filter_type%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22equal%22%2C%22field%22%3A%22id_turma%22%2C%22value%22%3A%22${idTurma}%22%7D%2C%7B%22type%22%3A%22equal%22%2C%22field%22%3A%22envio_notificacao%22%2C%22value%22%3A%22true%22%7D%5D%2C%22groups%22%3A%5B%5D%7D%5D%7D`,
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
-    );
+    const response = await axios.get();
 
     const results = response.data;
     if (!results || results.length === 0) {

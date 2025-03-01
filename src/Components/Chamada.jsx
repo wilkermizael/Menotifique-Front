@@ -4,8 +4,9 @@ import { Box, Stack, Checkbox, Typography, Avatar, Switch, Button, Alert } from 
 import PersonIcon from "@mui/icons-material/Person";
 import CheckIcon from '@mui/icons-material/Check';
 import { buscaAlunos } from "../Service/buscaAlunos";
-import marcaPresenca from "../Service/marcaPresenca"
+//import marcaPresenca from "../Service/marcaPresenca"
 import separaPresenca from "../Utils/separaPresenca";
+import statusPresenca from "../Service/statusPresenca";
 
 const Chamada = ({ turmaId }) => {
   const [alunos, setAlunos] = useState([]);
@@ -61,8 +62,9 @@ const Chamada = ({ turmaId }) => {
   const sendPresenca = async () => {
     try {
       const lista = separaPresenca(alunos, presenca); // Função que separa alunos faltosos dos presentes
-      const response = await marcaPresenca(lista.presentes); // Envia os dados de presença para o banco de dados
-      console.log(response)
+      //const response = await marcaPresenca(lista.presentes);
+      // Envia os dados de presença para o banco de dados
+      const response = await statusPresenca(lista.presentes);
   
       if (response == "turma_ja_chamada") { // Valor explícito para indicar chamada repetida
         setShowAlert(true);

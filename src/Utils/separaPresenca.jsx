@@ -5,9 +5,9 @@ const separaPresenca = (alunos, presenca)=>{
   // Itera sobre os alunos e verifica o status de presença
   alunos.forEach(aluno => {
     if (presenca[aluno.id]) {
-      presentes.push({...aluno, presente:"true"});
+      presentes.push({...aluno, is_present: true});
     } else {
-      presentes.push({...aluno, presente:"false"});
+      presentes.push({...aluno, is_present: false});
     }
   });
 
