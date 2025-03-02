@@ -105,14 +105,6 @@ const Alunos = ({ turmaId }) => {
     
 
     if (formData.id) {
-      // await updateAluno({
-      //   id: formData.id,
-      //   turmaId,
-      //   nome_aluno: formData.nome_aluno,
-      //   img_student: formData.img_student,
-      //   nome_responsavel: formData.nome_responsavel,
-      //   telefone_responsavel: formData.telefone_responsavel,
-      // });
       await updateAluno({
         id: formData.id,
         turmaId,

@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Box, Stack, Checkbox, Typography, Avatar, Switch, Button, Alert } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import CheckIcon from '@mui/icons-material/Check';
+import {
+  Box,
+  Stack,
+  Checkbox,
+  Typography,
+  Avatar,
+  Switch,
+  Button,
+  Alert,
+  Dialog,
+  DialogContent,
+} from "@mui/material";
+//import PersonIcon from "@mui/icons-material/Person";
+import CheckIcon from "@mui/icons-material/Check";
 import { buscaAlunos } from "../Service/buscaAlunos";
 //import marcaPresenca from "../Service/marcaPresenca"
 import separaPresenca from "../Utils/separaPresenca";
@@ -13,8 +24,11 @@ const Chamada = ({ turmaId }) => {
   const [presenca, setPresenca] = useState({});
   const [todosSelecionados, setTodosSelecionados] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
-  const [status, setAlertStatus] = useState("success")
-  const [message, setMessage] = useState("")
+  const [status, setAlertStatus] = useState("success");
+  const [message, setMessage] = useState("");
+  const [openImageDialog, setOpenImageDialog] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // Busca alunos no banco de dados ao carregar o componente
   useEffect(() => {
@@ -26,7 +40,7 @@ const Chamada = ({ turmaId }) => {
         const alunosOrdenados = response.results.sort((a, b) =>
           a.name_student.localeCompare(b.name_student)
         );
-  
+
         setAlunos(alunosOrdenados);
         const estadoInicialPresenca = response.results.reduce(
           (estado, aluno) => ({ ...estado, [aluno.id]: true }),
@@ -65,12 +79,14 @@ const Chamada = ({ turmaId }) => {
       //const response = await marcaPresenca(lista.presentes);
       // Envia os dados de presença para o banco de dados
       const response = await statusPresenca(lista.presentes);
-  
-      if (response == "turma_ja_chamada") { // Valor explícito para indicar chamada repetida
+
+      if (response == "turma_ja_chamada") {
+        // Valor explícito para indicar chamada repetida
         setShowAlert(true);
         setAlertStatus("warning");
         setMessage("A chamada já foi realizada nessa turma.");
-      } else if (response === true) { // Verifica se o envio foi bem-sucedido
+      } else if (response === true) {
+        // Verifica se o envio foi bem-sucedido
         setShowAlert(true);
         setAlertStatus("success");
         setMessage("Envio confirmado com sucesso!");
@@ -79,25 +95,34 @@ const Chamada = ({ turmaId }) => {
         setAlertStatus("error");
         setMessage("Erro! Tente enviar mais tarde.");
       }
-  
+
       // Oculta o alerta automaticamente após 3 segundos
       setTimeout(() => {
         setShowAlert(false);
       }, 3000);
-  
     } catch (error) {
       console.error("Erro ao enviar a chamada:", error.message);
       setShowAlert(true);
       setAlertStatus("error");
       setMessage("Erro inesperado! Tente novamente mais tarde.");
-  
+
       // Oculta o alerta automaticamente após 3 segundos
       setTimeout(() => {
         setShowAlert(false);
       }, 3000);
     }
   };
-  
+  const handleAvatarClick = (imageUrl) => {
+    if (imageUrl) {
+      setSelectedImage(imageUrl);
+      setOpenImageDialog(true);
+    }
+  };
+
+  const handleCloseImageDialog = () => {
+    setOpenImageDialog(false);
+    setSelectedImage(null);
+  };
   return (
     <>
       <Box
@@ -124,6 +149,7 @@ const Chamada = ({ turmaId }) => {
           </Typography>
           <Switch checked={todosSelecionados} onChange={handleToggleTodos} />
         </Stack>
+
         {alunos.map((aluno) => (
           <Stack
             key={aluno.id}
@@ -142,10 +168,20 @@ const Chamada = ({ turmaId }) => {
           >
             {/* Nome do Aluno */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar sx={{ bgcolor: "#007bff", width: 32, height: 32 }}>
-                <PersonIcon sx={{ color: "#ffffff" }} />
-              </Avatar>
-              <Typography variant="body1" fontWeight="500" sx={{ color: "#343a40" }}>
+              <Avatar
+                key={aluno.img_student}
+                src={`${API_BASE_URL}${aluno.img_student}`}
+                alt={`Foto de ${aluno.name_student}`}
+                sx={{ width: 56, height: 56, cursor: "pointer", mr: 2 }}
+                onClick={() =>
+                  handleAvatarClick(`${API_BASE_URL}${aluno.img_student}`)
+                }
+              />
+              <Typography
+                variant="body1"
+                fontWeight="500"
+                sx={{ color: "#343a40" }}
+              >
                 {aluno.name_student}
               </Typography>
             </Box>
@@ -158,34 +194,52 @@ const Chamada = ({ turmaId }) => {
           </Stack>
         ))}
 
+        {/* Diálogo da Imagem (Agora está fora do loop) */}
+        <Dialog
+          open={openImageDialog}
+          onClose={handleCloseImageDialog}
+          maxWidth="md"
+        >
+          <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Imagem ampliada do aluno"
+                style={{
+                  width: "100%",
+                  maxHeight: "80vh",
+                  objectFit: "contain",
+                }}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
       </Box>
+
       {showAlert ? (
-        <Alert icon={<CheckIcon fontSize="inherit" />} severity={`${status}`} >
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity={`${status}`}>
           {message}
         </Alert>
-      ):
-      <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "flex-end", // Alinha o botão à direita
-        mt: 2, // Margem superior para espaçamento
-        visibility:"visible"
-      }}
-    >
-      <Button variant="contained" onClick={sendPresenca}>Enviar</Button>
-      
-    </Box>
-    }
-      
-
+      ) : (
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end", // Alinha o botão à direita
+            mt: 2, // Margem superior para espaçamento
+            visibility: "visible",
+          }}
+        >
+          <Button variant="contained" onClick={sendPresenca}>
+            Enviar
+          </Button>
+        </Box>
+      )}
     </>
   );
 };
 
-
 Chamada.propTypes = {
   turmaId: PropTypes.number.isRequired,
-
 };
 export default Chamada;
