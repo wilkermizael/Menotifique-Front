@@ -2,9 +2,6 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 export default async function insertNotas(turma_id, notas) {
-  console.log("Data antes da conversão:", notas.data);
-  console.log("Data após conversão:", dayjs(notas.data).toDate());
-
   
   try {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;

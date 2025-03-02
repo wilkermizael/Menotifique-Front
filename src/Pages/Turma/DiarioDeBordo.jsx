@@ -48,16 +48,14 @@ const actions = [
 
 async function insertNotasDiario(turmaId, notas) {
   const insert = await insertNotas(turmaId, notas);
-  console.log(insert, "insert");
   return insert;
 }
 async function getBoard(alunoId) {
   const promise = await buscaNotas(alunoId)
-  console.log(promise.results, "promise")
-  if (!Array.isArray(promise.results) || promise.results.length === 0) {
-    console.error("Nenhum dado encontrado ou a estrutura é inesperada");
-    return [];
-  }
+  // if (!Array.isArray(promise.results) || promise.results.length === 0) {
+  //   console.error("Nenhum dado encontrado ou a estrutura é inesperada");
+  //   return [];
+  // }
 
   return promise.results.map((item) => ({
     id_aluno: item.id_student,

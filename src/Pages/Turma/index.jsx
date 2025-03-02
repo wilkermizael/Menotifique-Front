@@ -9,7 +9,7 @@ const Turma = () => {
   return (
     <>
       <AppBarTurma
-        turmaId={turmaId}
+        turmaId={turmaId.toString()}
       />
       <InfoAlunos turmaId={turmaId}/>
       {/*<TypebotBubble />*/}

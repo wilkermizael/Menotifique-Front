@@ -2,7 +2,7 @@
 import { Box } from "@mui/material";
 
 //import { Add, Edit, Delete } from "@mui/icons-material";
-import TypebotBubble from "../../Components/TypebotBubble";
+//import TypebotBubble from "../../Components/TypebotBubble";
 import AddTurma from "./addTurma";
 
 
@@ -19,7 +19,7 @@ const Painel = () => {
         
         }}>
         <AddTurma/>
-        <TypebotBubble/>
+        {/* <TypebotBubble/> */}
         
     </Box>
   );
