@@ -9,32 +9,38 @@ import { getBuscaAtiva } from '../../Service/getBuscaAtiva';
 
 async function getRows(turmaId) {
   const promise = await getBuscaAtiva(turmaId);
-  const qtd_alunos = promise.count; // define se existe pelo menos 1 aluno na busca ativa
 
+  // Verifica se promise.results é um array, senão, retorna um array vazio
+  const results = Array.isArray(promise.results) ? promise.results : [];
 
-  const rows = promise.results.map((item) => ({
+  const rows = results.map((item) => ({
     id: item.id,
-    nome_aluno: item.nome_aluno,
-    telefone_aluno: item.telefone_aluno,
-    nome_responsavel: item.nome_responsavel,
-    telefone_responsavel: item.telefone_responsavel,
-    qtd_faltas: item.qtd_faltas,
+    nome_aluno: item.name_student,
+    nome_responsavel: item.name_responsible,
+    telefone_responsavel: item.phone_responsible,
+    qtd_faltas: item.qtd_faults,
   }));
 
-  return { rows, qtd_alunos };
+  return rows; // Garante que retorna um array
 }
 
 const BuscaAtiva = ({ turmaId }) => {
   const [rows, setRows] = React.useState([]);
-  const [qtdAlunos, setQtdAlunos] = React.useState(0);
+  const [qtdAlunosComMuitasFaltas, setQtdAlunosComMuitasFaltas] = React.useState(0);
+
+ 
 
   React.useEffect(() => {
     async function fetchData() {
-      const { rows: fetchedRows, qtd_alunos } = await getRows(turmaId);
-      setRows(fetchedRows);
-      setQtdAlunos(qtd_alunos);
+      const fetchedRows = await getRows(turmaId);
+      
+      // Agora fetchedRows sempre será um array, então podemos filtrar
+      const alunosComMuitasFaltas = fetchedRows.filter((aluno) => aluno.qtd_faltas > 9);
+  
+      setRows(alunosComMuitasFaltas);
+      setQtdAlunosComMuitasFaltas(alunosComMuitasFaltas.length);
     }
-
+  
     if (turmaId) {
       fetchData();
     }
@@ -42,14 +48,13 @@ const BuscaAtiva = ({ turmaId }) => {
 
   return (
     <>
-      {qtdAlunos > 0 ? (
+      {qtdAlunosComMuitasFaltas  > 0 ? (
         rows.map((row) => (
           <Accordion key={row.id}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>{row.nome_aluno}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography><strong>Telefone do Aluno:</strong> {row.telefone_aluno}</Typography>
               <Typography><strong>Nome do Responsável:</strong> {row.nome_responsavel}</Typography>
               <Typography><strong>Telefone do Responsável:</strong> {row.telefone_responsavel}</Typography>
               <Typography><strong>Quantidade de Faltas:</strong> {row.qtd_faltas}</Typography>

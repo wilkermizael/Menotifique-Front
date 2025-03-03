@@ -1,20 +1,23 @@
 import axios from "axios";
 
 export async function getBuscaAtiva(id) {
-  const qtd_faltas = 15
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
   if (id) {
     try {
-      const token = import.meta.env.VITE_Token;
-      const response = await axios({
-        method: "GET",
-        url: `https://baserow.winikii.com/api/database/rows/table/25/?user_field_names=true&filters=%7B%22filter_type%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22equal%22%2C%22field%22%3A%22id_turma%22%2C%22value%22%3A%22${id}%22%7D%2C%7B%22type%22%3A%22higher_than_or_equal%22%2C%22field%22%3A%22qtd_faltas%22%2C%22value%22%3A%22${qtd_faltas}%22%7D%5D%2C%22groups%22%3A%5B%5D%7D`,
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      //const token = import.meta.env.VITE_Token;
+      const response = await axios.get(`${API_BASE_URL}/student/${id}`);
       return response.data; // Retorna o resultado esperado
     } catch (error) {
-      console.error("Erro ao realizar login:", error.message);
+      console.error("Erro ao encontrar alunos:", error.message);
+      return null; // Retorna um valor seguro em caso de erro
+    }
+  } else {
+    try {
+      //const token = import.meta.env.VITE_Token;
+      const response = await axios(`${API_BASE_URL}/class`);
+      return response.data
+    } catch (error) {
+      console.error("Erro ao encontrar alunos:", error.message);
       return null; // Retorna um valor seguro em caso de erro
     }
   }
