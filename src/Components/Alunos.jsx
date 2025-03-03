@@ -22,7 +22,6 @@ import ModalDeleteAluno from "./modalDeleteAluno";
 import { Avatar } from "@mui/material";
 
 async function getRows(turmaId) {
-  //const promise = await buscaAlunos(turmaId);
   const promise = await buscaAlunos(turmaId);
 
   if (!Array.isArray(promise.results) || promise.results.length === 0) {

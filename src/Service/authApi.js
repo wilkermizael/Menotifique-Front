@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:4000"; // Defina a URL da API
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Defina a URL da API
 
 export async function signIn(user, password) {
   try {
