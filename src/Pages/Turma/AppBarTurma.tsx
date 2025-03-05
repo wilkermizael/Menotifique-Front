@@ -44,6 +44,7 @@ const AppBarTurma = ({ turmaId})=>{
     fetchTurma(); //atualiza dados depois de deletar turma
     navigate("/painel");
   };
+  
   useEffect(() => {
     fetchTurma();
   }, [turmaId]);

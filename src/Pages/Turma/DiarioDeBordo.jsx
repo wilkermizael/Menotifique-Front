@@ -10,8 +10,11 @@ import {
   Button,
   Modal,
   Autocomplete,
+  IconButton,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -19,13 +22,15 @@ import "dayjs/locale/pt-br";
 import { buscaAlunos } from "../../Service/buscaAlunos";
 import insertNotas from "../../Service/insertNotas";
 import { buscaNotas } from "../../Service/buscaNotas";
+import ModalDeleteNota from "../../Components/modalDeleteNota";
+import { deleteNote } from "../../Service/deleteNote";
 
 const actions = [
   "Busca ativa",
   "Falta de respeito com o professor",
   "Falta de respeito com os colegas",
   "Falta de respeito com os funcionários",
-  "Comportamente inadequado",
+  "Comportamento inadequado",
   "Uso de palavras de baixo calão",
   "Uso indevido do celular",
   "Uso constante do celular",
@@ -51,13 +56,10 @@ async function insertNotasDiario(turmaId, notas) {
   return insert;
 }
 async function getBoard(alunoId) {
-  const promise = await buscaNotas(alunoId)
-  // if (!Array.isArray(promise.results) || promise.results.length === 0) {
-  //   console.error("Nenhum dado encontrado ou a estrutura é inesperada");
-  //   return [];
-  // }
+  const promise = await buscaNotas(alunoId);
 
   return promise.results.map((item) => ({
+    id_nota: item.id,
     id_aluno: item.id_student,
     data: item.date_note,
     tipoDemanda: item.demand,
@@ -89,6 +91,8 @@ const DiarioDeBordo = ({ turmaId }) => {
   const [selectedAluno, setSelectedAluno] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [errors, setErrors] = useState({}); // Estado para armazenar erros
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -147,7 +151,6 @@ const DiarioDeBordo = ({ turmaId }) => {
 
   const handleSaveNota = async () => {
     if (!validateFields()) return; // Impede o salvamento se houver erros
-
     try {
       // Insere a nota no banco de dados
       await insertNotasDiario(turmaId, notas.registro);
@@ -166,24 +169,56 @@ const DiarioDeBordo = ({ turmaId }) => {
             : row
         )
       );
-
       setModalOpen(false); // Fecha o modal após salvar
       setNotas({ registro: {} }); // Reseta o estado de notas
     } catch (error) {
       console.error("Erro ao salvar nota ou buscar dados atualizados:", error);
     }
   };
+  const handleDelete = async () => {
+    // Garante que há pelo menos uma linha e um board válido antes de acessar o ID
+  const id_nota = rows?.[0]?.board?.[0]?.id_nota ?? null;
+    try {
+      await deleteNote(id_nota);
+      const updatedBoard = await getBoard(selectedAluno.id)
+      
+      // Atualiza o estado `rows` com as novas notas
+      setRows((prevRows) =>
+        prevRows.map((row) =>
+          row.id === selectedAluno.id
+            ? {
+                ...row,
+                board: updatedBoard, // Substitui o board atual pelo atualizado
+              }
+            : row
+        )
+      );
+    } catch (error) {
+      console.error("Erro ao salvar nota ou buscar dados atualizados:", error);
+    }
+  }
 
-  const openModal = (aluno) => {
+  const openModal = (aluno, nota = null) => {
     setSelectedAluno(aluno);
-    setNotas((prevNotas) => ({
-      ...prevNotas,
-      registro: {
-        ...prevNotas.registro,
-        id: aluno.id,
-      },
-    }));
+
     setErrors({}); // Limpa os erros ao abrir o modal
+
+    setNotas({
+      registro: nota
+        ? {
+            ...nota,
+            data: nota.data
+              ? dayjs(nota.data, "YYYY-MM-DD").format("DD/MM/YYYY")
+              : "",
+          } // Se for edição, preenche com os dados existentes
+        : {
+            id_aluno: aluno.id,
+            data: dayjs().format("DD/MM/YYYY"),
+            tipoDemanda: "",
+            profissional: "",
+            descricao: "",
+          }, // Se for nova, inicia vazio
+    });
     setModalOpen(true);
   };
 
@@ -221,6 +256,22 @@ const DiarioDeBordo = ({ turmaId }) => {
                     <Typography>
                       <strong>Descrição:</strong> {note.descricao}
                     </Typography>
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <IconButton
+                        color="primary"
+                        sx={{ gap: "30px" }}
+                        onClick={() => openModal(row, note)} // Ação de edição
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        color="secondary"
+                        onClick={() => setDeleteOpen(true)}
+                        //onClick={() => handleDelete(note.id_nota)} // Ação de exclusão
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
                   </Box>
                 ))}
               <Button variant="outlined" onClick={() => openModal(row)}>
@@ -230,6 +281,14 @@ const DiarioDeBordo = ({ turmaId }) => {
           </AccordionDetails>
         </Accordion>
       ))}
+      {deleteOpen && (
+              <ModalDeleteNota
+                open={deleteOpen}
+                onClose={() => setDeleteOpen(false)}
+                rows={rows}
+                onDelete={handleDelete}
+              />
+            )}
 
       <Modal open={modalOpen} onClose={closeModal}>
         <Box

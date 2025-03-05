@@ -9,36 +9,18 @@ import {
     Stack,
   } from "@mui/material";
   import PropTypes from "prop-types";
-import React from "react";
-import { deleteAluno } from "../Service/deleteAluno";
   
-  const ModalDeleteAluno = ({ open, setOpen, selectedRowID, onDeleteSuccess }) => {
+  const ModalDeleteNota = ({ open, onClose, onDelete, rows }) => {
     // Função de exclusão
-    const [close, setClose] = React.useState(false)
-    const handleDelete = async () => {
-        try {
-          // Faça a chamada para excluir a linha no backend
-          await deleteAluno(selectedRowID);
-    
-          // Chama a função de sucesso
-          onDeleteSuccess(selectedRowID);
-    
-          // Fecha o modal
-          setOpen(false);
-        } catch (error) {
-          console.error("Erro ao excluir o aluno:", error);
-        }
-      };
-    const onClose = ()=>{
-        setClose(true)
-        setOpen(close)
-    }
-
+    // Garante que há pelo menos uma linha e um board válido antes de acessar o ID
+    const idNota = rows?.[0]?.board?.[0]?.id_nota ?? null;
+    const handleDelete = async() => {
+      onDelete(idNota);
+      onClose();
+    };
+  
     return (
-      <>
-        {open ?
-      
-        <Dialog
+      <Dialog
         open={open}
         onClose={onClose}
         aria-labelledby="dialog-delete-title"
@@ -47,7 +29,7 @@ import { deleteAluno } from "../Service/deleteAluno";
         <DialogTitle id="dialog-delete-title">Confirmar Exclusão</DialogTitle>
         <DialogContent>
           <Typography id="dialog-delete-description">
-            Você está prestes a excluir permanentemente os dados do aluno. Essa ação não
+            Você está prestes a excluir permanentemente a nota. Essa ação não
             poderá ser desfeita. Deseja continuar?
           </Typography>
         </DialogContent>
@@ -62,17 +44,15 @@ import { deleteAluno } from "../Service/deleteAluno";
           </Stack>
         </DialogActions>
       </Dialog>
-    :""}
-    </>
     );
   };
   
-  ModalDeleteAluno.propTypes = {
+  ModalDeleteNota.propTypes = {
     open: PropTypes.bool.isRequired,
-    setOpen: PropTypes.func.isRequired,
-    selectedRowID: PropTypes.number,
-    onDeleteSuccess: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    rows: PropTypes.array.isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
   
-  export default ModalDeleteAluno;
+  export default ModalDeleteNota;
   
