@@ -32,7 +32,7 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ p: 0.1, backgroundColor: "#56c3f6" }}>
+    <AppBar position="static" sx={{ p: 0.1, backgroundColor: "#56c3f6", mb:"60px"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Nome da Escola */}

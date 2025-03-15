@@ -31,7 +31,6 @@ const statusPresenca = async (lista) => {
         },
       });
     });
-
     const resultados = await Promise.allSettled(promises);
 
     // // Verifica falhas e sucessos
@@ -41,6 +40,7 @@ const statusPresenca = async (lista) => {
     // }
 
     // Retorna os resultados das requisições
+    console.log(resultados[0])
     return resultados[0].value.data.results;
   } catch (error) {
     console.error("Erro ao atualizar presença:", error.message);

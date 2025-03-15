@@ -46,11 +46,6 @@ const MyBottomNavigation = ({ value, setValue, turmaId }) => {
           borderBottom: 1,
           borderColor: "divider",
           bgcolor:"red",
-          //display: "flex",
-          //justifyContent: "center",
-          //height: '100vh', // Ocupa toda a altura da tela
-          //overflow: 'hidden',
-          //width: { xs: '70%', sm: '50%'}
          
         }}
       >

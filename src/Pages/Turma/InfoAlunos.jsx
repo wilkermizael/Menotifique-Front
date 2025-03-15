@@ -8,8 +8,8 @@ const InfoAlunos = ({turmaId})=>{
 
     return(
         //<Box sx={{display:"flex", flexDirection:"column"}}>
-        <Box>
-        <MyBottomNavigation value={value} setValue={setValue} turmaId={turmaId}/>
+        <Box >
+        <MyBottomNavigation value={value} setValue={setValue} turmaId={turmaId} />
         </Box>
         
     )

@@ -13,12 +13,13 @@ const Painel = () => {
         height:'100vh',
         display:'flex',
         flexFlow:'row wrap',
-        justifyContent:'spacte-between',
+        justifyContent:'space-between',
         alignItems:'flex-start',
         alignContent:'flex-start',
         
         }}>
-        <AddTurma/>
+        <AddTurma
+        />
         {/* <TypebotBubble/> */}
         
     </Box>
